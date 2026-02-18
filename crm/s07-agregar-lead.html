@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Agregar Lead — CRM WhatsApp</title>
+  <style>
+    :root {
+      --primary: #003A70;
+      --secondary: #005EB8;
+      --text: #101010;
+      --text-muted: #757575;
+      --border: #E3E3E3;
+      --divider: #F0F0F0;
+      --bg: #FFFFFF;
+      --bg-alt: #F2F2F7;
+      --danger: #FF6666;
+      --radius: 8px;
+      --space: 16px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: var(--text); background: var(--bg-alt); min-height: 100vh; padding-bottom: 80px; }
+    .app-bar {
+      background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
+      color: #fff; padding: 12px var(--space); padding-top: max(12px, env(safe-area-inset-top));
+      display: flex; align-items: center; gap: 12px;
+    }
+    .app-bar a { color: #fff; text-decoration: none; font-size: 20px; }
+    .app-bar h1 { margin: 0; font-size: 18px; font-weight: 700; flex: 1; }
+    .content { padding: var(--space); }
+    .form-group { margin-bottom: var(--space); }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .form-group .required::after { content: ' *'; color: var(--danger); }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+      font-size: 14px; font-family: inherit;
+    }
+    .form-group input.error { border-color: var(--danger); }
+    .form-group .hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .form-actions { display: flex; gap: 12px; margin-top: 24px; }
+    .btn { flex: 1; padding: 14px; border-radius: var(--radius); font-weight: 700; text-align: center; text-decoration: none; font-size: 14px; border: none; cursor: pointer; display: inline-block; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--bg); color: var(--text); border: 2px solid var(--border); }
+    .state-content { display: none; }
+    .state-content[data-active="true"] { display: block; }
+    .state-switcher { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space); }
+    .state-switcher button { padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); font-size: 12px; cursor: pointer; }
+    .state-switcher button.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+    .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--divider); display: flex; justify-content: space-around; padding: 8px 0; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+    .nav-bottom a { display: flex; flex-direction: column; align-items: center; padding: 4px 8px; color: var(--text-muted); text-decoration: none; font-size: 10px; }
+    .nav-bottom a.active { color: var(--secondary); font-weight: 700; }
+    .error-msg { color: var(--danger); font-size: 12px; margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+    .empty, .error, .loading { text-align: center; padding: 48px var(--space); color: var(--text-muted); }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--divider); border-top-color: var(--secondary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <header class="app-bar">
+    <a href="s04-pipeline.html">←</a>
+    <h1>Agregar Lead</h1>
+  </header>
+
+  <div class="content">
+    <div class="state-switcher">
+      <button type="button" class="active" data-state="default">Predeterminado</button>
+      <button type="button" data-state="empty">Vacío</button>
+      <button type="button" data-state="error">Error</button>
+      <button type="button" data-state="loading">Carga</button>
+    </div>
+
+    <div class="state-content" id="state-default" data-active="true">
+      <form id="formLead" onsubmit="return submitLead(event);">
+        <div class="form-group">
+          <label for="nombre" class="required">Nombre del lead</label>
+          <input type="text" id="nombre" placeholder="Ej. María García" required>
+          <div class="error-msg" id="errNombre">El nombre del lead es requerido.</div>
+        </div>
+        <div class="form-group">
+          <label for="tel">Teléfono / WhatsApp</label>
+          <input type="tel" id="tel" placeholder="+52 55 1234 5678">
+        </div>
+        <div class="form-group">
+          <label for="fuente">Fuente</label>
+          <select id="fuente">
+            <option value="">Selecciona</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="manual">Manual</option>
+            <option value="referido">Referido</option>
+            <option value="redes">Redes sociales</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="referido">Información de referido</label>
+          <input type="text" id="referido" placeholder="Opcional">
+        </div>
+        <div class="form-group">
+          <label for="red_social">Usuario de red social / Mensaje</label>
+          <input type="text" id="red_social" placeholder="Si aplica">
+        </div>
+        <div class="form-group">
+          <label for="necesita">Qué necesita</label>
+          <textarea id="necesita" rows="3" placeholder="Descripción del requerimiento"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="proxima">Próxima acción</label>
+          <select id="proxima">
+            <option value="">Selecciona</option>
+            <option value="llamada">Llamada</option>
+            <option value="cotizacion">Enviar cotización</option>
+            <option value="reunion">Reunión</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="vencimiento">Fecha de vencimiento</label>
+          <input type="date" id="vencimiento">
+        </div>
+        <div class="form-group">
+          <label for="ventana">Ventana de cierre</label>
+          <select id="ventana">
+            <option value="">Selecciona</option>
+            <option value="7">7 días</option>
+            <option value="15">15 días</option>
+            <option value="30">30 días</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <a href="s04-pipeline.html" class="btn btn-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Crear Lead</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="state-content" id="state-empty" data-active="false">
+      <div class="empty">
+        <p style="font-size: 48px;">📝</p>
+        <p><strong>Formulario vacío.</strong></p>
+      </div>
+    </div>
+
+    <div class="state-content" id="state-error" data-active="false">
+      <div class="error">
+        <p style="font-size: 48px;">⚠️</p>
+        <p><strong>No se pudo crear el lead.</strong></p>
+      </div>
+    </div>
+
+    <div class="state-content" id="state-loading" data-active="false">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Creando lead...</p>
+      </div>
+    </div>
+  </div>
+
+  <nav class="nav-bottom">
+    <a href="s01-inbox.html">Inbox</a>
+    <a href="s04-pipeline.html" class="active">Pipeline</a>
+    <a href="s05-hoy.html">Hoy</a>
+    <a href="s06-reactivar.html">Reactivar</a>
+    <a href="s10-metricas.html">Métricas</a>
+  </nav>
+
+  <script>
+    function submitLead(e) {
+      e.preventDefault();
+      var nom = document.getElementById('nombre');
+      var err = document.getElementById('errNombre');
+      if (!nom.value.trim()) {
+        nom.classList.add('error');
+        err.classList.add('show');
+        return false;
+      }
+      nom.classList.remove('error');
+      err.classList.remove('show');
+      window.location.href = 's08-detalle-lead.html';
+      return false;
+    }
+    (function(){
+      var switcher = document.querySelector('.state-switcher');
+      if (switcher) switcher.addEventListener('click', function(e) {
+        var btn = e.target.closest('button[data-state]');
+        if (!btn) return;
+        var state = btn.getAttribute('data-state');
+        switcher.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('.state-content').forEach(function(el){
+          el.setAttribute('data-active', el.id === 'state-' + state);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

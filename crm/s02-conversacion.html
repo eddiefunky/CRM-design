@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Conversación — CRM WhatsApp</title>
+  <style>
+    :root {
+      --primary: #003A70;
+      --secondary: #005EB8;
+      --text: #101010;
+      --text-muted: #757575;
+      --border: #E3E3E3;
+      --divider: #F0F0F0;
+      --bg: #FFFFFF;
+      --bg-alt: #F2F2F7;
+      --radius: 8px;
+      --space: 16px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: var(--text); background: var(--bg-alt); min-height: 100vh; display: flex; flex-direction: column; padding-bottom: 0; }
+    .app-bar {
+      background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
+      color: #fff; padding: 12px var(--space); padding-top: max(12px, env(safe-area-inset-top));
+      display: flex; align-items: center; gap: 12px;
+    }
+    .app-bar a { color: #fff; text-decoration: none; font-size: 20px; }
+    .app-bar h1 { margin: 0; font-size: 18px; font-weight: 700; flex: 1; }
+    .app-bar .chip { background: rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .chat-area { flex: 1; padding: var(--space); overflow-y: auto; min-height: 280px; }
+    .msg { max-width: 85%; margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; font-size: 14px; }
+    .msg.in { background: var(--bg); border: 1px solid var(--divider); align-self: flex-start; }
+    .msg.out { background: #CCDFF1; color: var(--primary); margin-left: auto; }
+    .msg .time { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .composer {
+      background: var(--bg); border-top: 1px solid var(--divider); padding: var(--space);
+      padding-bottom: max(var(--space), env(safe-area-inset-bottom)); display: flex; gap: 8px; align-items: flex-end;
+    }
+    .composer input { flex: 1; padding: 12px 14px; border: 1px solid var(--border); border-radius: 24px; font-size: 14px; }
+    .composer button { width: 44px; height: 44px; border-radius: 50%; background: var(--secondary); color: #fff; border: none; font-size: 18px; cursor: pointer; }
+    .actions { padding: var(--space); display: flex; flex-direction: column; gap: 12px; }
+    .btn { display: inline-block; padding: 12px var(--space); border-radius: var(--radius); font-weight: 700; text-align: center; text-decoration: none; font-size: 14px; border: none; cursor: pointer; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--secondary); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--secondary); border: 2px solid var(--secondary); }
+    .state-content { display: none; }
+    .state-content[data-active="true"] { display: block; }
+    .state-switcher { display: flex; flex-wrap: wrap; gap: 8px; padding: 8px var(--space); background: var(--bg); border-bottom: 1px solid var(--divider); }
+    .state-switcher button { padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); font-size: 12px; cursor: pointer; }
+    .state-switcher button.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+    .nav-bottom { background: var(--bg); border-top: 1px solid var(--divider); display: flex; justify-content: space-around; padding: 8px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+    .nav-bottom a { display: flex; flex-direction: column; align-items: center; padding: 4px 8px; color: var(--text-muted); text-decoration: none; font-size: 10px; }
+    .nav-bottom a.active { color: var(--secondary); font-weight: 700; }
+    .error-box, .loading-box { text-align: center; padding: 48px var(--space); color: var(--text-muted); }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--divider); border-top-color: var(--secondary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <header class="app-bar">
+    <a href="s01-inbox.html">←</a>
+    <h1>María García</h1>
+    <span class="chip">Nuevo</span>
+  </header>
+
+  <div class="state-switcher">
+    <button type="button" class="active" data-state="default">Predeterminado</button>
+    <button type="button" data-state="error">Error</button>
+    <button type="button" data-state="loading">Carga</button>
+  </div>
+
+  <div class="state-content" id="state-default" data-active="true">
+    <div style="display:flex; justify-content: space-between; padding: 8px var(--space); background: var(--bg); border-bottom: 1px solid var(--divider);">
+      <a href="s08-detalle-lead.html" class="btn btn-ghost" style="padding: 8px 12px; font-size: 13px;">Ver Lead</a>
+      <a href="s09-plantillas.html" class="btn btn-ghost" style="padding: 8px 12px; font-size: 13px;">Plantillas</a>
+    </div>
+    <div class="chat-area">
+      <div class="msg in">
+        Hola, me interesa el servicio de contabilidad para mi negocio pequeño.
+        <div class="time">10:32</div>
+      </div>
+      <div class="msg out">
+        Hola María, gracias por contactarnos. ¿Qué tipo de negocio tienes?
+        <div class="time">10:35</div>
+      </div>
+      <div class="msg in">
+        Es una ferretería con 3 empleados. Necesito facturación y nómina.
+        <div class="time">10:38</div>
+      </div>
+    </div>
+    <div class="composer">
+      <input type="text" placeholder="Escribe un mensaje..." id="msgInput">
+      <button type="button" aria-label="Enviar" onclick="alert('Mensaje enviado (prototipo)')">➤</button>
+    </div>
+    <div class="actions" style="border-top: 1px solid var(--divider);">
+      <a href="s03-convertir-lead.html" class="btn btn-primary">Convertir a Lead</a>
+    </div>
+  </div>
+
+  <div class="state-content" id="state-error" data-active="false">
+    <div class="error-box">
+      <p style="font-size: 48px;">⚠️</p>
+      <p><strong>No se pudo cargar la conversación.</strong></p>
+      <p>Revisa tu conexión e intenta de nuevo.</p>
+    </div>
+    <nav class="nav-bottom">
+      <a href="s01-inbox.html" class="active">Inbox</a>
+      <a href="s04-pipeline.html">Pipeline</a>
+      <a href="s05-hoy.html">Hoy</a>
+      <a href="s06-reactivar.html">Reactivar</a>
+      <a href="s10-metricas.html">Métricas</a>
+    </nav>
+  </div>
+
+  <div class="state-content" id="state-loading" data-active="false">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <p>Cargando conversación...</p>
+    </div>
+    <nav class="nav-bottom">
+      <a href="s01-inbox.html" class="active">Inbox</a>
+      <a href="s04-pipeline.html">Pipeline</a>
+      <a href="s05-hoy.html">Hoy</a>
+      <a href="s06-reactivar.html">Reactivar</a>
+      <a href="s10-metricas.html">Métricas</a>
+    </nav>
+  </div>
+
+  <nav class="nav-bottom" id="navDefault">
+    <a href="s01-inbox.html" class="active">Inbox</a>
+    <a href="s04-pipeline.html">Pipeline</a>
+    <a href="s05-hoy.html">Hoy</a>
+    <a href="s06-reactivar.html">Reactivar</a>
+    <a href="s10-metricas.html">Métricas</a>
+  </nav>
+
+  <script>
+    (function(){
+      var switcher = document.querySelector('.state-switcher');
+      if (!switcher) return;
+      switcher.addEventListener('click', function(e) {
+        var btn = e.target.closest('button[data-state]');
+        if (!btn) return;
+        var state = btn.getAttribute('data-state');
+        switcher.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        document.querySelectorAll('.state-content').forEach(function(el){
+          el.setAttribute('data-active', el.id === 'state-' + state);
+        });
+        document.getElementById('navDefault').style.display = state === 'default' ? 'flex' : 'none';
+      });
+    })();
+  </script>
+</body>
+</html>
