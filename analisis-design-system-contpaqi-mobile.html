@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Análisis Design System Contpaqi — Colabora app (móvil)</title>
+  <style>
+    :root {
+      --primary: #003A70;
+      --primary-shadow: #002E5A;
+      --secondary: #005EB8;
+      --text: #101010;
+      --text-muted: #757575;
+      --border: #E3E3E3;
+      --bg: #FFFFFF;
+      --bg-alt: #F2F2F7;
+      --success: #3EC161;
+      --danger: #FF6666;
+      --warning: #F19E0F;
+      --info: #3D91F4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    header {
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .meta {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .meta a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+    .meta a:hover { text-decoration: underline; }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+    h2 {
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.35rem;
+    }
+    h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; color: var(--secondary); }
+    h4 { font-size: 1rem; margin: 1.25rem 0 0.5rem; color: var(--text); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.5rem;
+      font-size: 0.9rem;
+      background: var(--bg);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+    }
+    th {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    tr:nth-child(even) { background: var(--bg-alt); }
+    code {
+      font-family: ui-monospace, monospace;
+      font-size: 0.88em;
+      background: var(--bg-alt);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0.5rem 0 1rem;
+      padding-left: 1.5rem;
+    }
+    li { margin: 0.35rem 0; }
+    p { margin: 0.5rem 0 1rem; }
+    .note { font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+    section { margin-bottom: 1rem; }
+    .swatch {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.1);
+      vertical-align: middle;
+      margin-right: 0.25rem;
+    }
+    .summary-box {
+      background: var(--bg-alt);
+      border-left: 4px solid var(--secondary);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .summary-box strong { color: var(--primary); }
+    @media (max-width: 640px) {
+      .page { padding: 1rem; }
+      table { font-size: 0.8rem; }
+      th, td { padding: 0.45rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Análisis del Design System — Contpaqi (Colabora app, móvil)</h1>
+      <p class="meta">
+        <strong>Origen:</strong> <a href="https://www.figma.com/design/8ub6DgvpRw7Fbp1NMDNN0l/Colabora-app?node-id=1-4" target="_blank" rel="noopener">Figma – Colabora-app</a><br>
+        <strong>Alcance:</strong> Design system para aplicaciones móviles Contpaqi (node-id 1-4).<br>
+        <strong>Fecha de análisis:</strong> Febrero 2025.
+      </p>
+    </header>
+
+    <h2>1. Design tokens detectados</h2>
+
+    <h3>1.1 Color</h3>
+
+    <h4>Marca (Contabilidad / no comerciales)</h4>
+    <table>
+      <thead>
+        <tr><th>Token / Uso</th><th>Valor</th><th>Notas</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Primary</td><td><span class="swatch" style="background:#003A70"></span><code>#003A70</code></td><td>PCP001, Contabilidad, no comerciales</td></tr>
+        <tr><td>Primary sombra</td><td><span class="swatch" style="background:#002E5A"></span><code>#002E5A</code></td><td>PCPS002L, PCP002S</td></tr>
+        <tr><td>Secondary</td><td><span class="swatch" style="background:#005EB8"></span><code>#005EB8</code></td><td>PCS001, Contabilidad, no comerciales</td></tr>
+        <tr><td>Secondary sombra</td><td><span class="swatch" style="background:#004B93"></span><code>#004B93</code></td><td>PCSS002L</td></tr>
+        <tr><td>Matices primary</td><td><code>#33618D</code>, <code>#99B0C6</code>, <code>#CCD8E2</code></td><td>PCPM002L, PCP004M, disable</td></tr>
+        <tr><td>Matices secondary</td><td><code>#337EC6</code>, <code>#99BFE3</code>, <code>#CCDFF1</code></td><td>PCSM002L–PCSM005L</td></tr>
+        <tr><td>Inline</td><td><span class="swatch" style="background:#00C0F3"></span><code>#00C0F3</code></td><td>PCL001L</td></tr>
+        <tr><td>Inline matices</td><td><code>#CCF2FF</code></td><td>PCLM005L</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Texto</h4>
+    <table>
+      <thead>
+        <tr><th>Token / Uso</th><th>Valor</th><th>Contexto</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Primary text</td><td><code>#101010</code></td><td>Text light, Contables light</td></tr>
+        <tr><td>Secondary text</td><td><code>#757575</code></td><td>Text light, Comercial</td></tr>
+        <tr><td>Divider text</td><td><code>#F0F0F0</code></td><td>Text light, Alerts</td></tr>
+        <tr><td>White / icon on color</td><td><code>#FFFFFF</code></td><td>Icon, botones, surface</td></tr>
+        <tr><td>Dark grey</td><td><code>#414141</code></td><td>Text Light Theme</td></tr>
+        <tr><td>Black</td><td><code>#000000</code></td><td>Text Light Theme</td></tr>
+        <tr><td>Secondary (label)</td><td><code>#35353a</code></td><td>Neutral</td></tr>
+        <tr><td>Gray-900</td><td><code>#1A1F36</code></td><td>Gray palette</td></tr>
+        <tr><td>Universal 50% Gray</td><td><code>#797B86</code></td><td>[day]/Text: <code>#0E0E0F</code></td></tr>
+      </tbody>
+    </table>
+
+    <h4>Alertas / estados semánticos</h4>
+    <table>
+      <thead>
+        <tr><th>Semántica</th><th>Base</th><th>Matices / sombras</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Success</strong></td><td><span class="swatch" style="background:#3EC161"></span><code>#3EC161</code> (S001L)</td><td><code>#65CD81</code>, <code>#B2E6C0</code>, <code>#D8F3DF</code>, <code>#E0FBCC</code>, <code>#329A4E</code>, <code>#25743A</code></td></tr>
+        <tr><td><strong>Danger</strong></td><td><span class="swatch" style="background:#FF6666"></span><code>#FF6666</code> (D001/D001L)</td><td><code>#FF5969</code>, <code>#FFDDE0</code>, <code>#CC5252</code></td></tr>
+        <tr><td><strong>Warning</strong></td><td><code>#FFDD66</code> (W001L), <code>#F19E0F</code> (500)</td><td><code>#FFE485</code>, <code>#F7BE28</code>, <code>#FDF2C8</code></td></tr>
+        <tr><td><strong>Info</strong></td><td><code>#3D91F4</code> (500), <code>#BCC7FF</code> (alert)</td><td><code>#DBEDFE</code>, <code>#E4E9FF</code>, <code>#F2F4FF</code>, <code>#2773E9</code>, <code>#1F5ED6</code></td></tr>
+      </tbody>
+    </table>
+
+    <h4>Fondos y superficies</h4>
+    <table>
+      <thead>
+        <tr><th>Uso</th><th>Valor</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Card / [day] Card</td><td><code>#FFFFFF</code></td></tr>
+        <tr><td>System Background Primary</td><td><code>#FFFFFF</code></td></tr>
+        <tr><td>System Background Secondary</td><td><code>#F2F2F7</code></td></tr>
+        <tr><td>Neutral 100</td><td><code>#ececed</code></td></tr>
+      </tbody>
+    </table>
+
+    <h4>Otros</h4>
+    <ul>
+      <li><strong>Separator:</strong> <code>#3C3C43</code> (con transparencia).</li>
+      <li><strong>System Blue (iOS):</strong> <code>#007AFF</code>.</li>
+      <li><strong>Label:</strong> Primary <code>#000000</code>, Secondary <code>#3C3C43</code>.</li>
+      <li>Paleta Gray: Gray10 <code>#FFFFFF</code>, Gray50 <code>#C2C2C2</code>.</li>
+      <li>Colores de avatar/skin/hair (ej. <code>#C2837B</code>, <code>#AC7080</code>, etc.).</li>
+    </ul>
+
+    <hr>
+
+    <h3>1.2 Tipografía</h3>
+    <h4>Fuentes</h4>
+    <ul>
+      <li><strong>Karla</strong> (principal): títulos, botones, párrafos, tooltips, placeholder.</li>
+      <li><strong>SF Pro Text</strong> (puntual): solo en <code>Caption2</code> (Default).</li>
+    </ul>
+
+    <h4>Estilos documentados en variables</h4>
+    <table>
+      <thead>
+        <tr><th>Estilo</th><th>Familia</th><th>Peso</th><th>Tamaño</th><th>Line height</th><th>Letter spacing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Button</td><td>Karla</td><td>Bold (700)</td><td>16px</td><td>20px</td><td>0.1</td></tr>
+        <tr><td>Tooltips (bold)</td><td>Karla</td><td>Bold (700)</td><td>12px</td><td>20px</td><td>0.1</td></tr>
+        <tr><td>Párrafos</td><td>Karla</td><td>Regular (400)</td><td>14px</td><td>100*</td><td>0.25</td></tr>
+        <tr><td>Textos nube / Párrafos</td><td>Karla</td><td>Regular (400)</td><td>14px</td><td>20px</td><td>0.25</td></tr>
+        <tr><td>Placeholder / Sidebar</td><td>Karla</td><td>Regular (400)</td><td>16px</td><td>100*</td><td>0</td></tr>
+        <tr><td>Button mobile</td><td>Karla</td><td>Bold (700)</td><td>14px</td><td>100*</td><td>0</td></tr>
+        <tr><td>Tooltips (regular)</td><td>Karla</td><td>Regular (400)</td><td>12px</td><td>100*</td><td>0</td></tr>
+        <tr><td>H3 - Subtítulo</td><td>Karla</td><td>Bold (700)</td><td>24px</td><td>100*</td><td>0</td></tr>
+        <tr><td>Caption2 (Default)</td><td>SF Pro Text</td><td>Regular (400)</td><td>11px</td><td>13px</td><td>0.066</td></tr>
+      </tbody>
+    </table>
+    <p class="note">* <code>100</code> en line height probablemente indica 100% o valor relativo; en código conviene fijar px o escala (ej. 1.2–1.5).</p>
+
+    <hr>
+
+    <h3>1.3 Sombras y elevación</h3>
+    <h4>Escala numérica (dp)</h4>
+    <ul>
+      <li><strong>01 dp:</strong> 2 sombras (offset Y 1–2px, radius 1–3px).</li>
+      <li><strong>02 dp:</strong> 3 sombras (Y 1–3px, radius 1–5px).</li>
+      <li><strong>04 dp:</strong> 3 sombras (Y 1–4px, radius 4–10px).</li>
+      <li><strong>08 dp mobile:</strong> 3 sombras hacia arriba (Y -8 a -3, radius 5–14px).</li>
+    </ul>
+    <h4>Elevation nombrada (Light)</h4>
+    <ul>
+      <li><strong>Elevation 1–4:</strong> progresión de drop shadows (blur y spread crecientes).</li>
+      <li><strong>Linea:</strong> inner shadow <code>#F5F5F5</code>, offset (0, -1).</li>
+    </ul>
+    <h4>Componentes</h4>
+    <ul>
+      <li><strong>Cards:</strong> sombras con tinte primary <code>#003A70</code> (opacidades ~12–24%).</li>
+      <li><strong>View:</strong> sombras blancas (opacidades ~14–26%).</li>
+      <li><strong>Sidebar:</strong> 2 capas (offset Y 1–2, radius 2–6, spread 0–2).</li>
+    </ul>
+    <p>Colores de sombra: <code>#00000026</code>, <code>#0000004D</code>, <code>#5E5E5E33</code>, <code>#5E5E5E1F</code>, <code>#5E5E5E24</code>, <code>#003A7024</code>, <code>#003A7012</code>, etc.</p>
+
+    <hr>
+
+    <h3>1.4 Gradientes</h3>
+    <ul>
+      <li><strong>Header / Gradiente linear:</strong> <code>#005EB8</code> → <code>#003A70</code> (secondary → primary).</li>
+      <li>Variables de gradiente "Contabilidad" / "Icon" aparecen como <strong>string vacío</strong> en las definiciones; en diseño real suelen ser linear gradient con los mismos colores de marca.</li>
+    </ul>
+
+    <hr>
+
+    <h2>2. Componentes y patrones inferidos</h2>
+    <p>A partir de los tokens se infieren estos usos típicos (no se pudo inspeccionar el canvas de Figma en detalle):</p>
+    <ul>
+      <li><strong>Botones:</strong> Karla Bold 14–16px, colores primary/secondary, elevación baja.</li>
+      <li><strong>Tipografía móvil:</strong> Button mobile 14px Bold; párrafos 14px Regular (line height 20px en "Textos nube").</li>
+      <li><strong>Cards:</strong> fondo blanco, sombra con tinte <code>#003A70</code>.</li>
+      <li><strong>Alertas:</strong> success, danger, warning, info con base + matices + sombras definidos.</li>
+      <li><strong>Navegación / header:</strong> gradiente linear Contpaqi.</li>
+      <li><strong>Iconografía:</strong> color blanco sobre fondos primary/secondary; token "Icon" vacío sugiere heredar de "White icon".</li>
+      <li><strong>Tema claro:</strong> Text light, Contabilidad Light, Alertas Light, Elevation Light; fondo sistema blanco/gris muy claro.</li>
+    </ul>
+
+    <hr>
+
+    <h2>3. Inconsistencias detectadas</h2>
+
+    <h3>3.1 Nomenclatura y convenciones</h3>
+    <ol start="1">
+      <li><strong>Idioma mezclado:</strong> "Contabilidad <strong>Light</strong>" vs "<strong>Alertas</strong> Light" vs "<strong>Alerts</strong> Light/Dark". "Primary" vs "<strong>Primario</strong>", "Secondary" vs "<strong>Secundary</strong>" (typo).</li>
+      <li><strong>Duplicación de conceptos:</strong> Mismo color primary con muchos nombres (<code>PCP001L</code>, <code>PCP001</code>, <code>Color Contabilidad/Primary</code>, etc.); igual con secondary y textos.</li>
+      <li><strong>Jerarquías de nombres desiguales:</strong> "Contabilidad Light/...", "Contables light/...", "No comerciales light/..."; dificulta la fuente de verdad.</li>
+      <li><strong>Typos:</strong> "Secundary" en lugar de "Secondary"; "Succes" en lugar de "Success".</li>
+    </ol>
+
+    <h3>3.2 Tipografía</h3>
+    <ol start="5">
+      <li><strong>Line height ambiguo:</strong> Valores <code>100</code> sin unidad; riesgo de interpretar como 100px.</li>
+      <li><strong>Dos familias:</strong> Karla y SF Pro Text sin criterio documentado de cuándo usar cada una.</li>
+      <li><strong>Escala móvil vs escritorio:</strong> Button 16px vs "button mobile" 14px sin escala clara por breakpoint.</li>
+    </ol>
+
+    <h3>3.3 Color</h3>
+    <ol start="8">
+      <li><strong>Paletas paralelas:</strong> Múltiples nombres para los mismos hex; mayor mantenimiento.</li>
+      <li><strong>Gradientes vacíos:</strong> Variables de gradiente definidas como <code>""</code>.</li>
+      <li><strong>Token "Icon" vacío:</strong> No queda claro si hereda de "White icon" o está pendiente.</li>
+    </ol>
+
+    <h3>3.4 Sombras y elevación</h3>
+    <ol start="11">
+      <li><strong>Dos sistemas de elevación:</strong> "01 dp"… y "Elevation Light 1–4" + cards/view; falta mapa componente → nivel.</li>
+      <li><strong>Nombres de efecto:</strong> "cards" vs "card" vs "view" vs "sidebar"; conviene escala unificada (elevation-1 a elevation-4).</li>
+    </ol>
+
+    <h3>3.5 Alcance y contexto</h3>
+    <ol start="13">
+      <li><strong>Tokens de contexto mixto:</strong> "[day]/Text", "System Background/Light/..."; no está explícito si son parte del sistema móvil Contpaqi.</li>
+      <li><strong>Colores no comerciales vs comerciales:</strong> No documentado cuándo usar cada rama.</li>
+    </ol>
+
+    <hr>
+
+    <h2>4. Recomendaciones para mitigar inconsistencias</h2>
+
+    <h3>4.1 Estructura y nomenclatura</h3>
+    <ul>
+      <li><strong>Unificar idioma</strong> en nombres de tokens (recomendable inglés para código).</li>
+      <li><strong>Corregir typos:</strong> "Secundary" → "Secondary", "Succes" → "Success".</li>
+      <li><strong>Una sola jerarquía por concepto:</strong> p. ej. <code>brand.primary</code>, <code>text.primary</code>, <code>surface.card</code>, <code>elevation.1</code>–<code>elevation.4</code>; deprecar alias duplicados.</li>
+      <li><strong>Documentar en Figma:</strong> página "Design tokens" con tabla nombre/valor/uso y reglas de uso por rama.</li>
+    </ul>
+
+    <h3>4.2 Tipografía</h3>
+    <ul>
+      <li><strong>Definir unidad de line height</strong> (100% → 1.0 en código o 100px si aplica).</li>
+      <li><strong>Publicar escala tipográfica</strong> por rol (caption, body, button, subtitle, title) para móvil y opcionalmente escritorio.</li>
+      <li><strong>Criterio SF Pro vs Karla:</strong> documentar que SF Pro solo para componentes nativos iOS; Karla para el resto.</li>
+    </ul>
+
+    <h3>4.3 Color</h3>
+    <ul>
+      <li><strong>Reducir paletas a una base:</strong> <code>brand.primary</code>, <code>brand.secondary</code> y derivados; temas como alias.</li>
+      <li><strong>Completar gradientes</strong> con valor real (ej. <code>linear-gradient(180deg, #005EB8 0%, #003A70 100%)</code>) y token único.</li>
+      <li><strong>Definir token "Icon":</strong> fijar <code>#FFFFFF</code> para icon on brand o añadir <code>icon.default</code>, <code>icon.muted</code>.</li>
+    </ul>
+
+    <h3>4.4 Elevación y sombras</h3>
+    <ul>
+      <li><strong>Una escala de elevación:</strong> 4–5 niveles (<code>elevation.0</code>–<code>elevation.4</code>); asignar "01 dp", "card", "view", "sidebar" a esos niveles.</li>
+      <li><strong>Documentar uso por componente:</strong> tabla "Componente → nivel" (botón: 0, card: 2, modal: 4, FAB: 4).</li>
+    </ul>
+
+    <h3>4.5 Implementación y mantenimiento</h3>
+    <ul>
+      <li><strong>Exportar tokens a código:</strong> plugin (Tokens Studio) o script → JSON/CSS/SCSS/JS para app móvil.</li>
+      <li><strong>Design tokens en repo:</strong> fuente de verdad en JSON/YAML; sincronizar con Figma si aplica.</li>
+      <li><strong>Changelog de design system</strong> para cambios de color/tipografía.</li>
+    </ul>
+
+    <hr>
+
+    <h2>5. Resumen</h2>
+    <div class="summary-box">
+      <p><strong>Fortalezas:</strong> paleta de marca clara (primary/secondary Contpaqi), alertas semánticas completas, uso de variables en Figma y escalas de elevación y tipografía móvil (button, párrafos).</p>
+      <p><strong>Debilidades:</strong> nomenclatura inconsistente (idioma, typos, muchas alias para el mismo valor), line height sin unidad, gradientes y algún token vacío, y dos sistemas de elevación sin mapeo claro a componentes.</p>
+      <p>Aplicando las recomendaciones anteriores se consigue un design system más fácil de mantener, documentar e implementar en las aplicaciones móviles Contpaqi.</p>
+    </div>
+  </div>
+</body>
+</html>
