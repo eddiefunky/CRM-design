@@ -134,6 +134,12 @@
         <strong>Alcance:</strong> Design system para aplicaciones móviles Contpaqi (node-id 1-4).<br>
         <strong>Fecha de análisis:</strong> Febrero 2025.
       </p>
+      <p class="meta" style="margin-top: 1rem;">
+        <strong>Metodología:</strong> Análisis realizado con el <strong>MCP de Figma</strong>. Se utilizaron:
+        <strong>Variables (get_variable_defs)</strong> en el nodo <code>1:4</code> para extraer design tokens (color, tipografía, efectos);
+        <strong>Screenshot (get_screenshot)</strong> del mismo nodo para revisar componentes, estilos y patrones en el canvas.
+        <em>Nota:</em> <code>get_design_context</code> y <code>get_metadata</code> sobre este nodo devolvieron error en la sesión de análisis.
+      </p>
     </header>
 
     <h2>1. Design tokens detectados</h2>
@@ -265,22 +271,44 @@
 
     <h3>1.4 Gradientes</h3>
     <ul>
-      <li><strong>Header / Gradiente linear:</strong> <code>#005EB8</code> → <code>#003A70</code> (secondary → primary).</li>
+      <li><strong>Header / Gradiente linear:</strong> <code>#005EB8</code> → <code>#003A70</code> (secondary → primary). Definido en variables; en pantallas de producto Colabora suelen usarse headers <strong>blancos</strong> o azul <strong>sólido</strong> según contexto.</li>
       <li>Variables de gradiente "Contabilidad" / "Icon" aparecen como <strong>string vacío</strong> en las definiciones; en diseño real suelen ser linear gradient con los mismos colores de marca.</li>
     </ul>
 
     <hr>
 
-    <h2>2. Componentes y patrones inferidos</h2>
-    <p>A partir de los tokens se infieren estos usos típicos (no se pudo inspeccionar el canvas de Figma en detalle):</p>
+    <h2>2. Componentes y patrones (revisión con MCP)</h2>
+    <p>A partir de los <strong>tokens</strong> (variables) y del <strong>screenshot del canvas</strong> (node 1:4) se identifican:</p>
+
+    <h4>2.1 Componentes observados en el canvas</h4>
     <ul>
-      <li><strong>Botones:</strong> Karla Bold 14–16px, colores primary/secondary, elevación baja.</li>
-      <li><strong>Tipografía móvil:</strong> Button mobile 14px Bold; párrafos 14px Regular (line height 20px en "Textos nube").</li>
-      <li><strong>Cards:</strong> fondo blanco, sombra con tinte <code>#003A70</code>.</li>
-      <li><strong>Alertas:</strong> success, danger, warning, info con base + matices + sombras definidos.</li>
-      <li><strong>Navegación / header:</strong> gradiente linear Contpaqi.</li>
-      <li><strong>Iconografía:</strong> color blanco sobre fondos primary/secondary; token "Icon" vacío sugiere heredar de "White icon".</li>
-      <li><strong>Tema claro:</strong> Text light, Contabilidad Light, Alertas Light, Elevation Light; fondo sistema blanco/gris muy claro.</li>
+      <li><strong>Botones:</strong> Primarios rellenos en azul, outline (contorno) y solo texto; distintos tamaños y estados (normal, posiblemente disabled/pressed).</li>
+      <li><strong>Campos de entrada:</strong> Texto con etiqueta/placeholder, barras de búsqueda (con ícono), selectores de fecha (calendario), hora, dropdowns; algunos con íconos leading/trailing.</li>
+      <li><strong>Navegación:</strong> App bar superior (títulos, ícono izquierda, acción derecha); barra inferior con íconos y etiquetas; tabs / controles segmentados.</li>
+      <li><strong>Listas y cards:</strong> Ítems con ícono, texto principal y secundario o indicador de acción; estructuras tipo card que agrupan contenido.</li>
+      <li><strong>Iconografía:</strong> Set amplio en trazo (line): home, búsqueda, ajustes, calendario, reloj, usuario, más, flecha atrás, notificaciones, etc.</li>
+      <li><strong>Selectores:</strong> Toggles, radio buttons, checkboxes (estados seleccionado y no seleccionado).</li>
+      <li><strong>Avatares:</strong> Circulares, con iniciales o imagen placeholder.</li>
+      <li><strong>Teclado numérico:</strong> Patrón de keypad en componentes.</li>
+      <li><strong>Gráficos / ilustraciones:</strong> Uso en pantallas de datos o resumen.</li>
+    </ul>
+
+    <h4>2.2 Estilos observados</h4>
+    <ul>
+      <li><strong>Paleta:</strong> Azul para acciones e interactivos; grises para fondos, bordes y texto secundario; blanco en contenido; rojo puntual (errores/alertas).</li>
+      <li><strong>Tipografía:</strong> Sans-serif consistente; tamaños y pesos para títulos, cuerpo, etiquetas y botones.</li>
+      <li><strong>Espaciado y layout:</strong> Espaciado y alineación uniformes; uso implícito de cuadrícula o tokens de espaciado.</li>
+      <li><strong>Sombras / elevación:</strong> Sombras suaves en cards y elementos flotantes para jerarquía.</li>
+      <li><strong>Radios:</strong> Esquinas redondeadas en botones, inputs y cards.</li>
+    </ul>
+
+    <h4>2.3 Patrones de uso</h4>
+    <ul>
+      <li><strong>Formularios:</strong> Campos etiquetados, botones de acción y selectores (fecha, hora) integrados.</li>
+      <li><strong>Listas de información/navegación:</strong> Listas verticales con ícono, texto descriptivo y acción trailing (flecha, estado).</li>
+      <li><strong>Header + barra inferior:</strong> Patrón repetido en pantallas.</li>
+      <li><strong>Perfil / ajustes:</strong> Avatar, nombre y lista de opciones configurables.</li>
+      <li><strong>Dashboard / resumen:</strong> Varias cards o secciones con información agregada y pequeñas visualizaciones.</li>
     </ul>
 
     <hr>
@@ -319,6 +347,14 @@
     <ol start="13">
       <li><strong>Tokens de contexto mixto:</strong> "[day]/Text", "System Background/Light/..."; no está explícito si son parte del sistema móvil Contpaqi.</li>
       <li><strong>Colores no comerciales vs comerciales:</strong> No documentado cuándo usar cada rama.</li>
+    </ol>
+
+    <h3>3.6 Observaciones visuales (canvas, vía MCP)</h3>
+    <ol start="15">
+      <li><strong>Tamaño y padding de botones:</strong> Posibles variaciones menores entre contextos; revisar que todos usen los mismos tokens de tamaño/espaciado.</li>
+      <li><strong>Grosor de trazo en íconos:</strong> En general uniforme; verificar que ningún ícono se desvíe del set definido.</li>
+      <li><strong>Jerarquía tipográfica:</strong> Posibles desvíos en tamaño/peso en texto secundario o etiquetas respecto a la escala.</li>
+      <li><strong>Tonos de gris/azul:</strong> Si algún elemento no está ligado a un token, puede haber ligeras diferencias de tono entre pantallas.</li>
     </ol>
 
     <hr>
@@ -364,8 +400,8 @@
 
     <h2>5. Resumen</h2>
     <div class="summary-box">
-      <p><strong>Fortalezas:</strong> paleta de marca clara (primary/secondary Contpaqi), alertas semánticas completas, uso de variables en Figma y escalas de elevación y tipografía móvil (button, párrafos).</p>
-      <p><strong>Debilidades:</strong> nomenclatura inconsistente (idioma, typos, muchas alias para el mismo valor), line height sin unidad, gradientes y algún token vacío, y dos sistemas de elevación sin mapeo claro a componentes.</p>
+      <p><strong>Fortalezas:</strong> paleta de marca clara (primary/secondary Contpaqi), alertas semánticas completas, uso de variables en Figma, escalas de elevación y tipografía móvil (button, párrafos), y un canvas de componentes amplio (botones, inputs, navegación, listas, cards, íconos) observable vía MCP.</p>
+      <p><strong>Debilidades:</strong> nomenclatura inconsistente (idioma, typos, muchas alias para el mismo valor), line height sin unidad, gradientes y algún token vacío, dos sistemas de elevación sin mapeo claro a componentes, y posibles variaciones visuales menores (tamaño de botones, tonos) que conviene atar a tokens.</p>
       <p>Aplicando las recomendaciones anteriores se consigue un design system más fácil de mantener, documentar e implementar en las aplicaciones móviles Contpaqi.</p>
     </div>
   </div>

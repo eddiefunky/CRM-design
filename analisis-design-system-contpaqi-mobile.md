@@ -4,6 +4,11 @@
 **Alcance:** Design system para aplicaciones móviles Contpaqi (node-id 1-4).  
 **Fecha de análisis:** Febrero 2025.
 
+**Metodología:** Análisis realizado con el **MCP de Figma**. Se utilizaron:
+- **Variables (get_variable_defs)** en el nodo `1:4` para extraer design tokens (color, tipografía, efectos).
+- **Screenshot (get_screenshot)** del mismo nodo para revisar componentes, estilos y patrones en el canvas.
+- *Nota:* `get_design_context` y `get_metadata` sobre este nodo devolvieron error en la sesión de análisis.
+
 ---
 
 ## 1. Design tokens detectados
@@ -107,22 +112,45 @@ Colores de sombra: `#00000026`, `#0000004D`, `#5E5E5E33`, `#5E5E5E1F`, `#5E5E5E2
 
 ### 1.4 Gradientes
 
-- **Header / Gradiente linear:** `#005EB8` → `#003A70` (secondary → primary).
+- **Header / Gradiente linear:** `#005EB8` → `#003A70` (secondary → primary). Definido en variables; en pantallas de producto Colabora suelen usarse headers **blancos** o azul **sólido** según contexto.
 - Variables de gradiente "Contabilidad" / "Icon" aparecen como **string vacío** en las definiciones; en diseño real suelen ser linear gradient con los mismos colores de marca.
 
 ---
 
-## 2. Componentes y patrones inferidos
+## 2. Componentes y patrones (revisión con MCP)
 
-A partir de los tokens se infieren estos usos típicos (no se pudo inspeccionar el canvas de Figma en detalle):
+A partir de los **tokens** (variables) y del **screenshot del canvas** (node 1:4) se identifican:
 
-- **Botones:** Karla Bold 14–16px, colores primary/secondary, elevación baja.
-- **Tipografía móvil:** Button mobile 14px Bold; párrafos 14px Regular (line height 20px en “Textos nube”).
-- **Cards:** fondo blanco, sombra con tinte `#003A70`.
-- **Alertas:** success, danger, warning, info con base + matices + sombras definidos.
-- **Navegación / header:** gradiente linear Contpaqi.
-- **Iconografía:** color blanco sobre fondos primary/secondary; token "Icon" vacío sugiere heredar de “White icon”.
-- **Tema claro:** Text light, Contabilidad Light, Alertas Light, Elevation Light; fondo sistema blanco/gris muy claro.
+### 2.1 Componentes observados en el canvas
+
+- **Botones:** Primarios rellenos en azul, outline (contorno) y solo texto; distintos tamaños y estados (normal, posiblemente disabled/pressed).
+- **Campos de entrada:** Texto con etiqueta/placeholder, barras de búsqueda (con ícono), selectores de fecha (calendario), hora, dropdowns; algunos con íconos leading/trailing.
+- **Navegación:**
+  - **App bar superior:** Títulos, ícono de navegación a la izquierda (menú, atrás), íconos de acción a la derecha (avatar, notificaciones, ajustes).
+  - **Barra inferior:** Múltiples íconos con etiquetas de texto para las secciones principales.
+  - **Tabs / controles segmentados:** Cambio entre vistas dentro de una pantalla.
+- **Listas y cards:** Ítems con ícono, texto principal y secundario o indicador de acción; estructuras tipo card que agrupan contenido.
+- **Iconografía:** Set amplio de íconos en trazo (line): home, búsqueda, ajustes, calendario, reloj, usuario, más, flecha atrás, notificaciones, etc.
+- **Selectores:** Toggles, radio buttons, checkboxes (estados seleccionado y no seleccionado).
+- **Avatares:** Circulares, con iniciales o imagen placeholder.
+- **Teclado numérico:** Patrón de keypad en componentes.
+- **Gráficos / ilustraciones:** Uso en pantallas de datos o resumen.
+
+### 2.2 Estilos observados
+
+- **Paleta:** Azul como color de marca para acciones e interactivos; grises para fondos, bordes y texto secundario; blanco en áreas de contenido; rojo puntual (errores/alertas).
+- **Tipografía:** Sans-serif consistente; tamaños y pesos definidos para títulos, cuerpo, etiquetas y botones.
+- **Espaciado y layout:** Espaciado y alineación uniformes; uso implícito de cuadrícula o tokens de espaciado.
+- **Sombras / elevación:** Sombras suaves en cards y elementos flotantes para jerarquía.
+- **Radios:** Esquinas redondeadas en botones, inputs y cards (aspecto moderno y uniforme).
+
+### 2.3 Patrones de uso
+
+- **Formularios:** Campos etiquetados, botones de acción y selectores (fecha, hora) integrados.
+- **Listas de información/navegación:** Listas verticales con ícono, texto descriptivo y acción trailing (flecha, estado).
+- **Header + barra inferior:** Patrón repetido en pantallas.
+- **Perfil / ajustes:** Avatar, nombre y lista de opciones configurables.
+- **Dashboard / resumen:** Varias cards o secciones con información agregada y pequeñas visualizaciones.
 
 ---
 
@@ -196,6 +224,13 @@ A partir de los tokens se infieren estos usos típicos (no se pudo inspeccionar 
     - "Color no comerciales" y "No comerciales light" vs "Comercial/Secondary Text", "Comercial/Divider".  
     - No está documentado cuándo usar cada rama (producto, app, white-label).
 
+### 3.6 Observaciones visuales (canvas, vía MCP)
+
+15. **Tamaño y padding de botones:** Posibles variaciones menores entre contextos; revisar que todos usen los mismos tokens de tamaño/espaciado.  
+16. **Grosor de trazo en íconos:** En general uniforme; verificar que ningún ícono se desvíe del set definido.  
+17. **Jerarquía tipográfica:** Posibles desvíos en tamaño/peso en texto secundario o etiquetas respecto a la escala.  
+18. **Tonos de gris/azul:** Si algún elemento no está ligado a un token, puede haber ligeras diferencias de tono entre pantallas.
+
 ---
 
 ## 4. Recomendaciones para mitigar inconsistencias
@@ -240,7 +275,7 @@ A partir de los tokens se infieren estos usos típicos (no se pudo inspeccionar 
 
 ## 5. Resumen
 
-- **Fortalezas:** paleta de marca clara (primary/secondary Contpaqi), alertas semánticas completas, uso de variables en Figma y escalas de elevación y tipografía móvil (button, párrafos).
-- **Debilidades:** nomenclatura inconsistente (idioma, typos, muchas alias para el mismo valor), line height sin unidad, gradientes y algún token vacío, y dos sistemas de elevación sin mapeo claro a componentes.
+- **Fortalezas:** paleta de marca clara (primary/secondary Contpaqi), alertas semánticas completas, uso de variables en Figma, escalas de elevación y tipografía móvil (button, párrafos), y un canvas de componentes amplio (botones, inputs, navegación, listas, cards, íconos) observable vía MCP.
+- **Debilidades:** nomenclatura inconsistente (idioma, typos, muchas alias para el mismo valor), line height sin unidad, gradientes y algún token vacío, dos sistemas de elevación sin mapeo claro a componentes, y posibles variaciones visuales menores (tamaño de botones, tonos) que conviene atar a tokens.
 
-Aplicando las recomendaciones anteriores se consigue un design system más fácil de mantener, de documentar y de implementar en las aplicaciones móviles Contpaqi.
+Aplicando las recomendaciones anteriores se consigue un design system más fácil de mantener, documentar e implementar en las aplicaciones móviles Contpaqi.
