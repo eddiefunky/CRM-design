@@ -4,53 +4,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Ajustes de Umbrales — CRM WhatsApp</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Design System Colabora — Manrope */
     :root {
       --primary: #003A70;
       --secondary: #005EB8;
       --text: #101010;
-      --text-muted: #757575;
+      --text-secondary: #757575;
       --danger: #FF6666;
       --border: #E3E3E3;
       --divider: #F0F0F0;
       --bg: #FFFFFF;
-      --bg-alt: #F2F2F7;
+      --bg-secondary: #F2F2F7;
       --radius: 8px;
       --space: 16px;
+      --shadow-card: 0 4px 8px rgba(0, 58, 112, 0.14), 0 0 4px rgba(0, 58, 112, 0.07);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: var(--text); background: var(--bg-alt); min-height: 100vh; padding-bottom: 80px; }
+    body { margin: 0; font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 20px; letter-spacing: 0.25px; color: var(--text); background: var(--bg-secondary); min-height: 100vh; padding-bottom: 80px; }
     .app-bar {
-      background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
-      color: #fff; padding: 12px var(--space); padding-top: max(12px, env(safe-area-inset-top));
+      background: var(--bg);
+      color: var(--text);
+      padding: 12px var(--space);
+      padding-top: max(12px, env(safe-area-inset-top));
+      border-bottom: 1px solid var(--divider);
       display: flex; align-items: center; gap: 12px;
     }
-    .app-bar a { color: #fff; text-decoration: none; font-size: 20px; }
-    .app-bar h1 { margin: 0; font-size: 18px; font-weight: 700; flex: 1; }
+    .app-bar a { color: var(--primary); text-decoration: none; font-size: 20px; font-weight: 600; }
+    .app-bar h1 { margin: 0; font-size: 18px; font-weight: 700; flex: 1; letter-spacing: -0.02em; font-family: inherit; }
     .content { padding: var(--space); }
     .form-group { margin-bottom: var(--space); }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+    .form-group label { display: block; font-weight: 600; font-size: 14px; line-height: 20px; margin-bottom: 8px; color: var(--text); font-family: inherit; }
     .form-group input {
       width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: var(--radius);
-      font-size: 16px;
+      font-size: 16px; font-family: inherit; line-height: 20px;
     }
+    .form-group input:focus { outline: none; border-color: var(--secondary); }
     .form-group input.error { border-color: var(--danger); }
-    .form-group .hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
-    .error-msg { color: var(--danger); font-size: 12px; margin-top: 6px; display: none; }
+    .form-group .hint { font-size: 12px; line-height: 16px; color: var(--text-secondary); margin-top: 6px; font-family: inherit; }
+    .error-msg { color: var(--danger); font-size: 12px; margin-top: 6px; display: none; font-family: inherit; }
     .error-msg.show { display: block; }
-    .btn { display: block; width: 100%; padding: 14px; border-radius: var(--radius); font-weight: 700; text-align: center; font-size: 14px; border: none; cursor: pointer; margin-top: 24px; background: var(--primary); color: #fff; }
+    .btn { display: block; width: 100%; padding: 14px; border-radius: var(--radius); font-weight: 700; font-size: 14px; letter-spacing: 0.1px; text-align: center; border: none; cursor: pointer; margin-top: 24px; background: var(--primary); color: #fff; font-family: inherit; }
+    .btn:active { opacity: 0.9; }
     .state-content { display: none; }
     .state-content[data-active="true"] { display: block; }
     .state-switcher { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: var(--space); }
-    .state-switcher button { padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); font-size: 12px; cursor: pointer; }
+    .state-switcher button { padding: 6px 12px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--bg); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; letter-spacing: 0.02em; }
     .state-switcher button.active { background: var(--secondary); color: #fff; border-color: var(--secondary); }
     .nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--divider); display: flex; justify-content: space-around; padding: 8px 0; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
-    .nav-bottom a { display: flex; flex-direction: column; align-items: center; padding: 4px 8px; color: var(--text-muted); text-decoration: none; font-size: 10px; }
+    .nav-bottom a { display: flex; flex-direction: column; align-items: center; padding: 4px 8px; color: var(--text-secondary); text-decoration: none; font-size: 10px; font-weight: 500; font-family: inherit; }
     .nav-bottom a.active { color: var(--secondary); font-weight: 700; }
-    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 12px 24px; border-radius: var(--radius); font-size: 14px; font-weight: 600; z-index: 20; display: none; box-shadow: 0 2px 8px rgba(0,58,112,0.2); }
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 12px 24px; border-radius: var(--radius); font-size: 14px; font-weight: 600; font-family: inherit; z-index: 20; display: none; box-shadow: var(--shadow-card); }
     .toast.show { display: block; animation: fade 2s ease; }
     @keyframes fade { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }
-    .empty, .error, .loading { text-align: center; padding: 48px var(--space); color: var(--text-muted); }
+    .empty, .error, .loading { text-align: center; padding: 48px var(--space); color: var(--text-secondary); font-size: 14px; line-height: 20px; }
+    .empty strong, .error strong { color: var(--text); }
     .spinner { width: 40px; height: 40px; border: 3px solid var(--divider); border-top-color: var(--secondary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
